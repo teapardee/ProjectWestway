@@ -1,0 +1,161 @@
+
+/* Runs Box & Text Format */
+
+div.FormatRuns {
+	background-color: seagreen;
+	height: 94.5px;
+	width: 	61.5PX;
+	border: 5px solid black;
+
+	font-family: "Impact", Charcoal, sans-serif;
+	font-size: 50px;
+	color: white;
+	text-align: center;
+	vertical-align: middle;
+	line-height: 94.5px;
+}
+
+/* Runs Box & Text Format */
+
+div.FormatTeams {
+	background-color: seagreen;
+	height: 94.5px;
+	width: 	242PX;
+	border: 5px solid black;
+
+	font-family: "Impact", Charcoal, sans-serif;
+	font-size: 90px;
+	color: white;
+	text-align: center;
+	vertical-align: middle;
+	line-height: 94.5px;
+}
+
+/* At Bat Box & Text Format */
+
+div.FormatAtBat {
+	background-color: seagreen;
+	height: 136px;
+	width: 	147.5PX;
+	border: 5px solid black;
+
+	font-family: "Impact", Charcoal, sans-serif;
+	font-size: 136px;
+	color: white;
+	text-align: center;
+	vertical-align: middle;
+	line-height: 136px;
+}
+
+/* Circular Lights Format */
+
+.FormatCirclesGreen {
+    border-radius: 50%;
+    width: 65px;
+    height: 65px;
+    background: darkgreen;
+    border: 5px solid black;
+}
+
+.FormatCirclesRed {
+    border-radius: 50%;
+    width: 65px;
+    height: 65px;
+    background: red;
+    border: 5px solid black;
+}
+
+/* Error Display - Format */
+div.FormatErrBox {
+	background-color: seagreen;
+	height: 130px;
+	width: 	130PX;
+	border: 5px solid black;
+
+	font-family: "Impact", Charcoal, sans-serif;
+	font-size: 130px;
+	color: white;
+	text-align: center;
+	vertical-align: middle;
+	line-height: 130px;
+}
+
+/* At Bat Display - Box Position */
+div.AtBat1 {
+	position: absolute;	
+	top:703px;
+	left:202.5px;
+}
+
+/* Error Display - Box Position */
+div.ErrBox1 {
+	position: absolute;	
+	top:704px;
+	left:1809.25px;
+}
+
+
+
+/* Scrolling Ticker Tape */
+
+@-webkit-keyframes ticker {
+  0% {
+    -webkit-transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0);
+    visibility: visible;
+  }
+  100% {
+    -webkit-transform: translate3d(-100%, 0, 0);
+    transform: translate3d(-100%, 0, 0);
+  }
+}
+@keyframes ticker {
+  0% {
+    -webkit-transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0);
+    visibility: visible;
+  }
+  100% {
+    -webkit-transform: translate3d(-100%, 0, 0);
+    transform: translate3d(-100%, 0, 0);
+  }
+}
+
+.TickerBox {
+  position: absolute;
+  top: 990.5px;
+  left: 202.5px;
+  height: 64px;
+  width: 1702.5px;
+  overflow: hidden;
+  background-color: rgba(0, 0, 0, 0.8);
+  border: 5px solid black;	
+}
+
+
+.Ticker {
+  display: inline-block;
+  height: 64px;
+  line-height: 64px;
+  white-space: nowrap;
+  padding-right: 100%;
+  position: absolute;
+  left:100%;
+  -webkit-animation-iteration-count: infinite;
+  animation-iteration-count: infinite;
+  -webkit-animation-timing-function: linear;
+  animation-timing-function: linear;
+  -webkit-animation-name: ticker;
+  animation-name: ticker;
+  -webkit-animation-duration: 10s;
+  animation-duration: 10s;
+}
+.TickerItem {
+  display: inline-block;
+  font-family: "Impact", Charcoal, sans-serif;
+  padding: 2px;
+  font-size: 60px;
+  color: white;
+}
+
+
