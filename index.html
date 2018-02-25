@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Scoreboard</title>
+	<link href="style2.css" rel="stylesheet" type="text/css"/>
+
+</head>
+
+<body>
+	
+	<!-- Background Color -->
+
+	<style>
+		body 
+		{
+			background-color: seagreen;
+		}
+	</style>
+
+	<script type="text/javascript">
+
+		// Fetch Data from Play-By-Play Simulations
+
+		var sim1 = 'http://api.sportradar.us/mlb-sim5/games/9a809ad8-df70-4809-960f-e3ac56fadf84/pbp.json?api_key=aj34hye9y273hqchw9gyrpqb';
+		var sim2 = 'http://api.sportradar.us/mlb-sim5/games/29fb2c07-0b2f-4036-88d4-52ac92d5f657/pbp.json?api_key=aj34hye9y273hqchw9gyrpqb';
+
+		fetch(sim1)
+		.then(res => res.json())
+		.then((output1) => 
+		{
+			// Set Variables - Balls, Strikes, Outs
+
+			var inn = output1.game.innings.length - 1;
+			var h = output1.game.innings[inn].halfs.length - 1;
+
+			try
+			{
+				var e1 = output1.game.innings[inn].halfs[h].events.length - 1;	
+				var e2 = output1.game.innings[inn].halfs[h].events[e1].at_bat.events.length - 1; 
+				var count = output1.game.innings[inn].halfs[h].events[e1].at_bat.events[e2].count;
+				var balls = count.balls;
+				var strikes = count.balls;
+				var outs = count.outs;
+			}
+			catch(err)
+			{
+				try
+				{
+					var h = 0;
+					var e1 = output1.game.innings[inn].halfs[h].events.length - 1;	
+					var e2 = output1.game.innings[inn].halfs[h].events[e1].at_bat.events.length - 1; 
+					var count = output1.game.innings[inn].halfs[h].events[e1].at_bat.events[e2].count;
+					var balls = count.balls;
+					var strikes = count.balls;
+					var outs = count.outs;
+				}
+				catch(err)
+				{
+					var balls = 0;
+					var strikes = 0;
+					var outs = 0;
+				}
+			}	
+
+			// Display - Ball, Strikes & Out
+
+		    var XCoords2 = [510,603.5,697,868,961.5,1132.5,1226,1397,1655];
+		    var YCoords2 = [738.5];
+		    var i;
+		    var j;
+
+			for (j = 0; j < YCoords2.length; j++)
+			{
+
+		    	for (i = 0; i < XCoords2.length; i++)
+		    	{
+
+		    		switch(i)
+		    		{
+		    			case 0:
+		    			case 1:
+		    			case 2:
+		    				CircleColor = 'FormatCirclesGreen';
+		    				if(i < balls)
+	    					{
+	    						CircleColor = 'FormatCirclesRed';
+	    					}
+		    			break;
+		    			case 3:
+		    			case 4:		
+		    				CircleColor = 'FormatCirclesGreen';		    			
+		    				if(i < strikes + 3)
+		    				{
+		    					CircleColor = 'FormatCirclesRed';
+		    				}
+		    			break;
+		    			case 5:
+		    			case 6:
+		    				CircleColor = 'FormatCirclesGreen';		    			
+			    			if(i < outs + 5)
+			    			{
+			    				CircleColor = 'FormatCirclesRed';
+			    			}
+		    			break;
+		    			default:
+		    				CircleColor = 'FormatCirclesGreen';
+		    		}
+		    		div = document.createElement('div');
+		    		div.innerHTML = '<div class="' + CircleColor + '"></div>';
+		    		div.style.position = "absolute";
+		    		div.style.top = YCoords2[j] + "px";
+		    		div.style.left = XCoords2[i] + "px";
+		    		document.body.appendChild(div);
+		    	}
+		    }
+
+			// Set Variable - Ticker Tape Description
+
+		   	try
+		   	{
+		   		var description = output1.game.innings[inn].halfs[h].events[e1].at_bat.description;
+		   	} 
+		   	catch(err)
+		   	{
+		   		var description = "";
+		   	}	
+
+		   	// Display - Ticker Tape
+
+		    var grid_item = '<div class ="TickerBox"><div class = "Ticker"><div class = "TickerItem">' + description + '</div></div></div>'
+			grid = document.createElement('grid');
+	    	grid.innerHTML = grid_item;
+			document.body.appendChild(grid);	
+
+			// Set Variable - At Bat Jersey Number
+
+			var atbat = output1.game.innings[inn].halfs[h].events[e1].at_bat.
+
+			// Set Variables - Pitcher Jersey Number
+
+			var k = "";
+
+			for (k = 0; k < 8; k++)
+			{
+				if (output1.game.innings[0].halfs[0].events[k].lineup.position == 1)
+				{
+					var awaypitcher = output1.game.innings[0].halfs[0].events[k].lineup.jersey_number; 
+				}
+				if (output1.game.innings[0].halfs[1].events[k].lineup.position == 1)
+				{
+					var homepitcher = output1.game.innings[0].halfs[1].events[k].lineup.jersey_number; 
+				}
+			}
+
+	    	// Setting Variables & Display - Runs, Pitcher Jersey Numbe, Hits, Errors etc.
+
+			var XCoords = [74.5,511.5,605,698.5,825.5,919,1012.5,1140.5,1234,1327.5,1455.5,1656.5,1750,1843.5];
+		    var YCoords = [307,457];	
+			var i;
+	    	var j;
+	    	var runs;
+	    	var int;
+	    	var innings = 9;
+
+		    for (j = 0; j < YCoords.length; j++) 
+		    {
+		    	// Determine if values are for Home vs. Away
+		    	
+		    	var source = output1.game.scoring.home;
+		    	var pjersey_number = homepitcher;
+		    	if (j == 1) 
+		    	{
+		    		source = output1.game.scoring.away;
+		    		pjersey_number = awaypitcher;
+		    	}
+
+		    	for (i = 0; i < XCoords.length; i++)
+		    	{
+		    		var runs = '';
+		    		switch (i) 
+		    		{
+					    case 0:
+					        runs = pjersey_number;
+					        break;
+					    case 11:
+					        runs = source.runs;
+					        break;
+					    case 12:
+					        runs = source.hits;
+					        break;
+					    case 13:
+					        runs = source.errors;
+					        break;
+					    default:
+					    	if (i < output1.game.innings.length)
+					    	{
+					    		if (j == 0)
+					    		{
+					    			runs = output1.game.innings[i].scoring.home.runs; 
+					    		} else
+					    		{
+					    			runs = output1.game.innings[i].scoring.away.runs;
+					    		}
+								
+								if (runs == 'X')
+								{
+									runs = '';
+								}					    	
+					    	}
+					        break;
+					}
+	
+					// Setting Style
+
+		    		div = document.createElement('div');
+		    		div.innerHTML = '<div class="FormatRuns">' + runs + '</div>';
+		    		div.style.position = "absolute";
+		    		div.style.top = YCoords[j] + "px";
+		    		div.style.left = XCoords[i] + "px";
+		    		document.body.appendChild(div);
+		    	}
+	    	}
+
+				 // Home & Away Team Display
+
+				var Hteam;
+				var Ateam;
+
+				var hteam = output1.game.scoring.home.abbr;
+				var ateam = output1.game.scoring.away.abbr;
+
+	    		div = document.createElement('div');
+	    		div.innerHTML = '<div class="FormatTeams">' + hteam + '</div>';
+	    		div.style.position = "absolute";
+	    		div.style.top = "307px";
+	    		div.style.left = "202.5px";
+	    		document.body.appendChild(div);	
+
+				div = document.createElement('div');
+	    		div.innerHTML = '<div class="FormatTeams">' + ateam + '</div>';
+	    		div.style.position = "absolute";
+	    		div.style.top = "457px";
+	    		div.style.left = "202.5px";
+	    		document.body.appendChild(div);	
+ 
+		})
+	 	
+	</script>
+
+	<!-- At Bat Display -->
+
+	<div class="FormatAtBat AtBat1">25</div>
+
+	<!-- Err Display -->
+
+	<div class="FormatErrBox ErrBox1"></div>
+
+	<!-- Circular Lights -->
+
+	<script type="text/javascript">
+	   
+	</script>
+
+</body>
+</html>
